@@ -54,4 +54,4 @@ import { Client, Account, ID } from "appwrite";
 
 const authService = new AuthService()
 
-export default AuthService;
+export default authService;
