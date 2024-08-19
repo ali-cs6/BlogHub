@@ -1,5 +1,5 @@
 import config from "../configEnvVar/config";
-import { Client, Account, ID, Databases, Storage, Query } from "appwrite";
+import { Client, ID, Databases, Storage, Query } from "appwrite";
 
 export class Service {
     client = new Client();
@@ -10,11 +10,12 @@ export class Service {
         this.client
             .setEndpoint(config.appwriteUrl)
             .setProject(config.appwriteProjectId);
-        const databases = new Databases();
-        const bucket = new Storage();
+        this.databases = new Databases(this.client);
+        this.bucket = new Storage(this.client);
     }
 
-    async createPost({ title, slug, content, featuredImage, status, userId }) {
+    async createPost({ title, slug, content, featuredImage, status, userid }) {
+        
         try {
             return await this.databases.createDocument(
                 config.appwriteDatabaseId,
@@ -25,7 +26,7 @@ export class Service {
                     content,
                     featuredImage,
                     status,
-                    userId
+                    userid
                 }
             );
         } catch (error) {
@@ -34,7 +35,7 @@ export class Service {
         }
     }
 
-    async updatePost(slug, { title, content, featuredImage, status }) {
+    async updatePost(slug, { title, content, featuredImage, status }) {        
         try {
             return await this.databases.updateDocument(
                 config.appwriteDatabaseId,
@@ -74,7 +75,7 @@ export class Service {
                 slug
             );
         } catch (error) {
-            console.log("Appwrite service :: getPost :: error", error);
+            console.log("Appwrite service :: getSinglePost :: error", error);
             return false;
         }
     }
@@ -119,8 +120,8 @@ export class Service {
         }
     }
 
-    getFilePreveiw(fileId){
-        return this.bucket.getFilePreveiw(
+    getFilePreview(fileId){
+        return this.bucket.getFilePreview(
             config.appwriteBucketId,
             fileId
         );
