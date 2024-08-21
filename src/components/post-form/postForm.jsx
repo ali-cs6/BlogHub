@@ -19,7 +19,7 @@ function postForm({ post }) {
     const userData = useSelector((state) => state.auth.userData);
 
     const submit = async (data) => {
-        const status = data.status === 'active'
+        // const status = data.status === 'active'
         if (post) { //if file is already present so only updates
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
             if (file) {
@@ -39,7 +39,7 @@ function postForm({ post }) {
                 data.featuredImage = fileId;
                 const dbPost = await appwriteService.createPost({
                     ...data,
-                    status,
+                    // status,
                     userid: userData.$id
                 })
                 if (dbPost) {

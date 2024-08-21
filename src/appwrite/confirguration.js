@@ -1,5 +1,6 @@
 import config from "../configEnvVar/config";
 import { Client, ID, Databases, Storage, Query } from "appwrite";
+import { login } from "../store/authSlice";
 
 export class Service {
     client = new Client();
@@ -70,7 +71,7 @@ export class Service {
     async getSinglePost(slug) { // to get a single document/post
         try {
             return await this.databases.getDocument(
-                config.appwriteProjectId,
+                config.appwriteDatabaseId,
                 config.appwriteCollectionId,
                 slug
             );
@@ -81,6 +82,8 @@ export class Service {
     }
 
     async getPosts(Queries = [Query.equal("status", "active")]) {
+        // console.log("Queries: ", Queries);
+        
         try {
             return await this.databases.listDocuments(
                 config.appwriteDatabaseId,

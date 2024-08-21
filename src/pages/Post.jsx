@@ -9,6 +9,8 @@ export default function Post() {
     const [post, setPost] = useState(null);
     const { slug } = useParams();
     const navigate = useNavigate();
+    // console.log("Slug is: ", slug);
+    
 
     const userData = useSelector((state) => state.auth.userData);
 
